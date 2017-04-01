@@ -1,0 +1,425 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D3605231E8F956500CB4CAB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3605221E8F956500CB4CAB /* main.m */; };
+		8D3605261E8F956500CB4CAB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3605251E8F956500CB4CAB /* AppDelegate.m */; };
+		8D3605291E8F956500CB4CAB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D3605281E8F956500CB4CAB /* ViewController.m */; };
+		8D36052C1E8F956500CB4CAB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D36052A1E8F956500CB4CAB /* Main.storyboard */; };
+		8D36052E1E8F956500CB4CAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D36052D1E8F956500CB4CAB /* Assets.xcassets */; };
+		8D3605311E8F956500CB4CAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D36052F1E8F956500CB4CAB /* LaunchScreen.storyboard */; };
+		8D36053C1E8F956500CB4CAB /* JDCFFPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D36053B1E8F956500CB4CAB /* JDCFFPlayerTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8D3605381E8F956500CB4CAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8D3605161E8F956500CB4CAB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D36051D1E8F956500CB4CAB;
+			remoteInfo = JDCFFPlayer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8D36051E1E8F956500CB4CAB /* JDCFFPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JDCFFPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D3605221E8F956500CB4CAB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8D3605241E8F956500CB4CAB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8D3605251E8F956500CB4CAB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8D3605271E8F956500CB4CAB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		8D3605281E8F956500CB4CAB /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8D36052B1E8F956500CB4CAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8D36052D1E8F956500CB4CAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8D3605301E8F956500CB4CAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8D3605321E8F956500CB4CAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D3605371E8F956500CB4CAB /* JDCFFPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JDCFFPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D36053B1E8F956500CB4CAB /* JDCFFPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JDCFFPlayerTests.m; sourceTree = "<group>"; };
+		8D36053D1E8F956500CB4CAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D36051B1E8F956500CB4CAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D3605341E8F956500CB4CAB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8D3605151E8F956500CB4CAB = {
+			isa = PBXGroup;
+			children = (
+				8D3605201E8F956500CB4CAB /* JDCFFPlayer */,
+				8D36053A1E8F956500CB4CAB /* JDCFFPlayerTests */,
+				8D36051F1E8F956500CB4CAB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8D36051F1E8F956500CB4CAB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D36051E1E8F956500CB4CAB /* JDCFFPlayer.app */,
+				8D3605371E8F956500CB4CAB /* JDCFFPlayerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8D3605201E8F956500CB4CAB /* JDCFFPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				8D3605241E8F956500CB4CAB /* AppDelegate.h */,
+				8D3605251E8F956500CB4CAB /* AppDelegate.m */,
+				8D3605271E8F956500CB4CAB /* ViewController.h */,
+				8D3605281E8F956500CB4CAB /* ViewController.m */,
+				8D36052A1E8F956500CB4CAB /* Main.storyboard */,
+				8D36052D1E8F956500CB4CAB /* Assets.xcassets */,
+				8D36052F1E8F956500CB4CAB /* LaunchScreen.storyboard */,
+				8D3605321E8F956500CB4CAB /* Info.plist */,
+				8D3605211E8F956500CB4CAB /* Supporting Files */,
+			);
+			path = JDCFFPlayer;
+			sourceTree = "<group>";
+		};
+		8D3605211E8F956500CB4CAB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8D3605221E8F956500CB4CAB /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8D36053A1E8F956500CB4CAB /* JDCFFPlayerTests */ = {
+			isa = PBXGroup;
+			children = (
+				8D36053B1E8F956500CB4CAB /* JDCFFPlayerTests.m */,
+				8D36053D1E8F956500CB4CAB /* Info.plist */,
+			);
+			path = JDCFFPlayerTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D36051D1E8F956500CB4CAB /* JDCFFPlayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D3605401E8F956500CB4CAB /* Build configuration list for PBXNativeTarget "JDCFFPlayer" */;
+			buildPhases = (
+				8D36051A1E8F956500CB4CAB /* Sources */,
+				8D36051B1E8F956500CB4CAB /* Frameworks */,
+				8D36051C1E8F956500CB4CAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JDCFFPlayer;
+			productName = JDCFFPlayer;
+			productReference = 8D36051E1E8F956500CB4CAB /* JDCFFPlayer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8D3605361E8F956500CB4CAB /* JDCFFPlayerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D3605431E8F956500CB4CAB /* Build configuration list for PBXNativeTarget "JDCFFPlayerTests" */;
+			buildPhases = (
+				8D3605331E8F956500CB4CAB /* Sources */,
+				8D3605341E8F956500CB4CAB /* Frameworks */,
+				8D3605351E8F956500CB4CAB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8D3605391E8F956500CB4CAB /* PBXTargetDependency */,
+			);
+			name = JDCFFPlayerTests;
+			productName = JDCFFPlayerTests;
+			productReference = 8D3605371E8F956500CB4CAB /* JDCFFPlayerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8D3605161E8F956500CB4CAB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = jidong;
+				TargetAttributes = {
+					8D36051D1E8F956500CB4CAB = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
+					8D3605361E8F956500CB4CAB = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 8D36051D1E8F956500CB4CAB;
+					};
+				};
+			};
+			buildConfigurationList = 8D3605191E8F956500CB4CAB /* Build configuration list for PBXProject "JDCFFPlayer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8D3605151E8F956500CB4CAB;
+			productRefGroup = 8D36051F1E8F956500CB4CAB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D36051D1E8F956500CB4CAB /* JDCFFPlayer */,
+				8D3605361E8F956500CB4CAB /* JDCFFPlayerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D36051C1E8F956500CB4CAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D3605311E8F956500CB4CAB /* LaunchScreen.storyboard in Resources */,
+				8D36052E1E8F956500CB4CAB /* Assets.xcassets in Resources */,
+				8D36052C1E8F956500CB4CAB /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D3605351E8F956500CB4CAB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D36051A1E8F956500CB4CAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D3605291E8F956500CB4CAB /* ViewController.m in Sources */,
+				8D3605261E8F956500CB4CAB /* AppDelegate.m in Sources */,
+				8D3605231E8F956500CB4CAB /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D3605331E8F956500CB4CAB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D36053C1E8F956500CB4CAB /* JDCFFPlayerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8D3605391E8F956500CB4CAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D36051D1E8F956500CB4CAB /* JDCFFPlayer */;
+			targetProxy = 8D3605381E8F956500CB4CAB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8D36052A1E8F956500CB4CAB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8D36052B1E8F956500CB4CAB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8D36052F1E8F956500CB4CAB /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8D3605301E8F956500CB4CAB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8D36053E1E8F956500CB4CAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		8D36053F1E8F956500CB4CAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8D3605411E8F956500CB4CAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = JDCFFPlayer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jidong.JDCFFPlayer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8D3605421E8F956500CB4CAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = JDCFFPlayer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jidong.JDCFFPlayer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8D3605441E8F956500CB4CAB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = JDCFFPlayerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jidong.JDCFFPlayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JDCFFPlayer.app/JDCFFPlayer";
+			};
+			name = Debug;
+		};
+		8D3605451E8F956500CB4CAB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = JDCFFPlayerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jidong.JDCFFPlayerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JDCFFPlayer.app/JDCFFPlayer";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8D3605191E8F956500CB4CAB /* Build configuration list for PBXProject "JDCFFPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D36053E1E8F956500CB4CAB /* Debug */,
+				8D36053F1E8F956500CB4CAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8D3605401E8F956500CB4CAB /* Build configuration list for PBXNativeTarget "JDCFFPlayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D3605411E8F956500CB4CAB /* Debug */,
+				8D3605421E8F956500CB4CAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8D3605431E8F956500CB4CAB /* Build configuration list for PBXNativeTarget "JDCFFPlayerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D3605441E8F956500CB4CAB /* Debug */,
+				8D3605451E8F956500CB4CAB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8D3605161E8F956500CB4CAB /* Project object */;
+}
