@@ -14,6 +14,7 @@
 		8D36052E1E8F956500CB4CAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D36052D1E8F956500CB4CAB /* Assets.xcassets */; };
 		8D3605311E8F956500CB4CAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D36052F1E8F956500CB4CAB /* LaunchScreen.storyboard */; };
 		8D36053C1E8F956500CB4CAB /* JDCFFPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D36053B1E8F956500CB4CAB /* JDCFFPlayerTests.m */; };
+		8D3605491E8F95ED00CB4CAB /* jdc_media_player.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D3605471E8F95ED00CB4CAB /* jdc_media_player.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		8D3605371E8F956500CB4CAB /* JDCFFPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JDCFFPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D36053B1E8F956500CB4CAB /* JDCFFPlayerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JDCFFPlayerTests.m; sourceTree = "<group>"; };
 		8D36053D1E8F956500CB4CAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D3605471E8F95ED00CB4CAB /* jdc_media_player.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jdc_media_player.c; sourceTree = "<group>"; };
+		8D3605481E8F95ED00CB4CAB /* jdc_media_player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdc_media_player.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +66,7 @@
 		8D3605151E8F956500CB4CAB = {
 			isa = PBXGroup;
 			children = (
+				8D3605461E8F95AD00CB4CAB /* JDCFFMedia */,
 				8D3605201E8F956500CB4CAB /* JDCFFPlayer */,
 				8D36053A1E8F956500CB4CAB /* JDCFFPlayerTests */,
 				8D36051F1E8F956500CB4CAB /* Products */,
@@ -109,6 +113,15 @@
 				8D36053D1E8F956500CB4CAB /* Info.plist */,
 			);
 			path = JDCFFPlayerTests;
+			sourceTree = "<group>";
+		};
+		8D3605461E8F95AD00CB4CAB /* JDCFFMedia */ = {
+			isa = PBXGroup;
+			children = (
+				8D3605471E8F95ED00CB4CAB /* jdc_media_player.c */,
+				8D3605481E8F95ED00CB4CAB /* jdc_media_player.h */,
+			);
+			path = JDCFFMedia;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +173,7 @@
 				TargetAttributes = {
 					8D36051D1E8F956500CB4CAB = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 6BQ9D3YQW4;
 						ProvisioningStyle = Automatic;
 					};
 					8D3605361E8F956500CB4CAB = {
@@ -216,6 +230,7 @@
 				8D3605291E8F956500CB4CAB /* ViewController.m in Sources */,
 				8D3605261E8F956500CB4CAB /* AppDelegate.m in Sources */,
 				8D3605231E8F956500CB4CAB /* main.m in Sources */,
+				8D3605491E8F95ED00CB4CAB /* jdc_media_player.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,8 +364,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6BQ9D3YQW4;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/ffmpeg/3.2.4/include;
 				INFOPLIST_FILE = JDCFFPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/ffmpeg/3.2.4/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jidong.JDCFFPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -360,8 +378,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6BQ9D3YQW4;
+				HEADER_SEARCH_PATHS = /usr/local/Cellar/ffmpeg/3.2.4/include;
 				INFOPLIST_FILE = JDCFFPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/ffmpeg/3.2.4/lib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jidong.JDCFFPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
