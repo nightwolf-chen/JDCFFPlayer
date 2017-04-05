@@ -23,12 +23,25 @@ struct JDCMediaContext {
     AVCodec *codecVideo;
     AVCodecContext *codecCtxVideo;
     AVStream *videoStream;
+    int videoStreamIdx;
     
-    AVStream *audioStream;
     AVCodec *codecAudio;
     AVCodecContext *codecCtxAudio;
+    AVStream *audioStream;
+    int audioStreamIdx;
     
-    JDCSDLContext *sldCtx;
+    JDCSDLContext *sdlCtx;
+    
+    SDL_Thread *parse_tid;
+    SDL_Thread *video_tid;
+    
+    struct SwsContext *swsCtx;
+    JDCSDLPacketQueue *audioQueue;
+    JDCSDLPacketQueue *videoQueue;
+    
+    JDCSDLPacketQueue *videoFrameQueue;
+    
+    char filename[1024];
     
     int quit;
 };
@@ -43,7 +56,7 @@ int jdc_media_init();
 
 JDCMediaContext *jdc_media_open_input(const char *url,JDCError **error);
 
-int jdc_media_play(JDCMediaContext *mCtx , JDCSDLContext *sdCtx);
+int jdc_media_play(JDCMediaContext *mCtx);
 
 
 #endif /* jdc_media_player_h */

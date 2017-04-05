@@ -16,28 +16,24 @@
 #include "imgutils.h"
 #include "SDL.h"
 
-typedef struct JDCSDLPacketQueue {
-    AVPacketList *first_pk;
-    AVPacketList *last_pk;
-    int nb_packets;
-    int size;
-    SDL_mutex *mutex;
-    SDL_cond *cond;
-    
-    int quit;
-}JDCSDLPacketQueue;
+struct JDCSDLPacketQueue;
+
+typedef struct JDCSDLPacketQueue JDCSDLPacketQueue;
+
 
 JDCSDLPacketQueue *jdc_packet_queue_alloc();
 
 void jdc_packet_queue_init(JDCSDLPacketQueue *queue);
 
-int jdc_packet_queue_push(JDCSDLPacketQueue *queue , AVPacket *packet);
+int jdc_packet_queue_size(JDCSDLPacketQueue *queue);
 
-AVPacket *jdc_packet_queue_front(JDCSDLPacketQueue *queue);
+int jdc_packet_queue_push(JDCSDLPacketQueue *queue , void *data);
 
-AVPacket *jdc_packet_queue_pop(JDCSDLPacketQueue *queue);
+void *jdc_packet_queue_front(JDCSDLPacketQueue *queue);
 
-int jdc_packet_queue_get_packet(JDCSDLPacketQueue *queue , AVPacket *pkg , int blockThread);
+void *jdc_packet_queue_pop(JDCSDLPacketQueue *queue);
+
+int jdc_packet_queue_get_packet(JDCSDLPacketQueue *queue , void **data , int blockThread);
 
 
     

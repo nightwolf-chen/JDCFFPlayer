@@ -20,7 +20,7 @@ int main(int argc, char * argv[]) {
         jdc_media_init();
         jdc_sdl_init();
         JDCMediaContext *mCtx = jdc_media_open_input([path UTF8String], NULL);
-        jdc_media_play(mCtx,mCtx->sldCtx);
+        jdc_media_play(mCtx);
         
         return 0;
     }

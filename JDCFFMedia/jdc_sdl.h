@@ -26,11 +26,9 @@ typedef struct JDCSDLContext{
     SDL_Renderer *renderer;
     SDL_Texture *texture;
     AVFrame *frame;
-    struct SwsContext *swsCtx;
-    
-    JDCSDLPacketQueue *audioQueue;
-    JDCSDLPacketQueue *videoQueue;
 }JDCSDLContext;
+
+void jdc_sdl_audio_callback(void *userdata, Uint8 * stream,int len);
 
 int jdc_sdl_init();
 int jdc_sdl_present_frame(JDCSDLContext *sdlCtx, AVFrame *pFrame);

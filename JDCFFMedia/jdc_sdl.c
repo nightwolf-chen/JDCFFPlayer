@@ -176,23 +176,23 @@ int jdc_sdl_audio_decode_frame(AVCodecContext *aCodecCtx,
                        int buf_size,
                        JDCMediaContext *mCtx)
 {
-    static AVPacket pkt;
-    static AVFrame frame;
+    AVPacket *pkt = av_packet_alloc();
+    AVFrame *frame = av_frame_alloc();
     
     int len1, data_size = 0;
     
     while(1){
         
-        if (pkt.data) {
+        if (pkt->data != NULL) {
             
-            if  (avcodec_send_packet(aCodecCtx, &pkt) < 0) {
+            if  (avcodec_send_packet(aCodecCtx, pkt) < 0) {
                 return -1;
             }
             
             data_size = 0;
-            while(avcodec_receive_frame(aCodecCtx, &frame) >= 0){
+            while(avcodec_receive_frame(aCodecCtx, frame) >= 0){
                 
-                len1 = frame.linesize[0];
+                len1 = frame->linesize[0];
                 if(len1 < 0) {
                     /* if error, skip frame */
                     break;
@@ -201,11 +201,11 @@ int jdc_sdl_audio_decode_frame(AVCodecContext *aCodecCtx,
                 int fData_size = 0;
                 fData_size = av_samples_get_buffer_size(NULL,
                                                        aCodecCtx->channels,
-                                                       frame.nb_samples,
+                                                       frame->nb_samples,
                                                        aCodecCtx->sample_fmt,
                                                        1);
                 assert(fData_size <= buf_size);
-                memcpy(audio_buf+data_size, frame.data[0], fData_size);
+                memcpy(audio_buf+data_size, frame->data[0], fData_size);
                 /*
                 fData_size = AudioResampling(aCodecCtx,
                                              &frame,
@@ -233,7 +233,7 @@ int jdc_sdl_audio_decode_frame(AVCodecContext *aCodecCtx,
             return -1;
         }
         
-        if(jdc_packet_queue_get_packet(mCtx->sldCtx->audioQueue, &pkt, 1)< 0) {
+        if(jdc_packet_queue_get_packet(mCtx->audioQueue, (void **)&pkt, 1)< 0) {
             return -1;
         }
     }
@@ -341,7 +341,7 @@ JDCSDLContext *jdc_sdl_create_context(struct JDCMediaContext *mCtx)
         return NULL;
     }
     
-    sdlCtx->swsCtx = swsCtx;
+   // sdlCtx->swsCtx = swsCtx;
     
     
     AVFrame *pFrameYUV = NULL;
@@ -374,13 +374,6 @@ JDCSDLContext *jdc_sdl_create_context(struct JDCMediaContext *mCtx)
     }
     sdlCtx->frame = pFrameYUV;
     
-
-    
-    sdlCtx->audioQueue = jdc_packet_queue_alloc();
-    jdc_packet_queue_init(sdlCtx->audioQueue);
-    
-    sdlCtx->videoQueue = jdc_packet_queue_alloc();
-    jdc_packet_queue_init(sdlCtx->videoQueue);
     
     return sdlCtx;
 }
@@ -407,7 +400,7 @@ int jdc_sdl_present_frame(JDCSDLContext *sdlCtx , AVFrame *pFrame){
     AVFrame *pFrameYUV = sdlCtx->frame;
   
     
-    struct SwsContext *swsCtx = sdlCtx->swsCtx;
+    struct SwsContext *swsCtx = NULL;
     
     sws_scale(swsCtx,
               (uint8_t  const * const *)pFrame->data,
