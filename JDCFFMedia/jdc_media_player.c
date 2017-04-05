@@ -8,11 +8,6 @@
 
 #include "jdc_media_player.h"
 
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-#include <libswscale/swscale.h>
-#include <libavutil/avutil.h>
-#include <libavutil/imgutils.h>
 
 int jdc_media_init()
 {
@@ -21,59 +16,83 @@ int jdc_media_init()
 }
 
 
-/**
- 打开一个url的多媒体文件
-
- @param context 上下文
- @param url 文件的url
- @return 0为正常，-1打开失败
- */
-int jdc_media_open_input(AVFormatContext **context, const char *url)
+JDCMediaContext *jdc_media_open_input(const char *url,JDCError **error)
 {
-    if (avformat_open_input(context, url, NULL, NULL) != 0) {
-        return -1;
+    JDCMediaContext *mCtx = (JDCMediaContext *)av_mallocz(sizeof(JDCMediaContext));
+    AVFormatContext *pFmtCtx = avformat_alloc_context();
+    if (avformat_open_input(&pFmtCtx, url, NULL, NULL) != 0) {
+        av_free(mCtx);
+        return NULL;
+    }
+    mCtx->fmtCtx = pFmtCtx;
+    
+    if (avformat_find_stream_info(pFmtCtx, NULL) < 0) {
+        av_free(mCtx);
+        return NULL;
     }
     
-    if (avformat_find_stream_info(*context, NULL) < 0) {
-        return -1;
-    }
     
-#if DEBUG
-    av_dump_format(*context, 0, url, 0);
-#endif
-    
-    int videoStream = -1;
-    AVCodecContext *pCodecCtx = NULL;
-    for(int i = 0 ; i < (*context)->nb_streams ; i++){
-        if((*context)->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO){
-            videoStream = i;
-            break;
+    for(int i = 0 ; i < pFmtCtx->nb_streams ; i++){
+        if(pFmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO &&
+           mCtx->videoStream == NULL){
+            mCtx->videoStream = pFmtCtx->streams[i];
+        }
+        
+        if(pFmtCtx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_AUDIO &&
+           mCtx->audioStream == NULL){
+            mCtx->audioStream = pFmtCtx->streams[i];
         }
     }
     
-    if (videoStream == -1) {
-        return -1;
+    if (mCtx->videoStream == NULL) {
+        av_free(mCtx);
+        return NULL;
     }
     
-    enum AVCodecID code_id = (*context)->streams[videoStream]->codecpar->codec_id;
+    enum AVCodecID code_id = mCtx->videoStream->codecpar->codec_id;
     AVCodec *pCodec = NULL;
     pCodec = avcodec_find_decoder(code_id);
     if (pCodec == NULL) {
         fprintf(stderr, "Unsuppored codec!");
-        return -1;
+        av_free(mCtx);
+        return NULL;
     }
     
-    pCodecCtx = avcodec_alloc_context3(pCodec);
-    if (avcodec_parameters_to_context(pCodecCtx, (*context)->streams[videoStream]->codecpar) < 0) {
+    mCtx->codecVideo = pCodec;
+    
+    mCtx->codecAudio = avcodec_find_decoder(mCtx->audioStream->codecpar->codec_id);
+    if (mCtx->audioStream == NULL) {
+        fprintf(stderr, "Unsuppored audio codec!");
+        av_free(mCtx);
+        return NULL;
+    }
+    
+    mCtx->codecCtxVideo = avcodec_alloc_context3(mCtx->codecVideo);
+    if (avcodec_parameters_to_context(mCtx->codecCtxVideo, mCtx->videoStream->codecpar) < 0) {
         fprintf(stderr, "avcodec_paramters copy failed");
-        return -1;
+        av_free(mCtx);
+        return NULL;
     }
+    AVDictionary *dic = NULL;
+    avcodec_open2(mCtx->codecCtxVideo, pCodec, &dic);
+    
+    mCtx->codecCtxAudio = avcodec_alloc_context3(mCtx->codecAudio);
+    if (avcodec_parameters_to_context(mCtx->codecCtxAudio, mCtx->audioStream->codecpar)) {
+        fprintf(stderr, "avcodec_paramters copy failed");
+        av_free(mCtx);
+        return NULL;
+    }
+    avcodec_open2(mCtx->codecCtxAudio, mCtx->codecAudio, &dic);
+    
+    mCtx->sldCtx = jdc_sdl_create_context(mCtx);
     
     
-    return 0;
+    return mCtx;
 }
 
-int jdc_media_get_frame(AVCodecContext *pCodecCtx , AVFormatContext *pFmtCtx)
+
+int jdc_media_play(JDCMediaContext *mCtx , JDCSDLContext *sdlCtx)
+
 {
     AVFrame *pFrame = NULL;
     pFrame = av_frame_alloc();
@@ -81,16 +100,41 @@ int jdc_media_get_frame(AVCodecContext *pCodecCtx , AVFormatContext *pFmtCtx)
         return -1;
     }
     
-    AVFrame *pFrameRGB = NULL;
-    pFrameRGB = av_frame_alloc();
-    if (pFrameRGB == NULL) {
-        return -1;
+    jdc_sdl_play_audio(mCtx, sdlCtx);
+    
+    int numBytes;
+    numBytes = av_image_get_buffer_size(AV_PIX_FMT_YUV420P,
+                                  mCtx->codecCtxVideo->width,
+                                  mCtx->codecCtxVideo->height,
+                                        1);
+    AVPacket packet;
+    av_new_packet(&packet, numBytes);
+    
+    while(av_read_frame(mCtx->fmtCtx, &packet) >= 0){
+        if (packet.stream_index == mCtx->videoStream->index) {
+            continue;
+            int r = avcodec_send_packet(mCtx->codecCtxVideo, &packet);
+            if (r != 0) {
+                av_packet_unref(&packet);
+                //return -1;
+                continue;
+            }
+            r = avcodec_receive_frame(mCtx->codecCtxVideo, pFrame);
+            if (r != 0) {
+                av_packet_unref(&packet);
+                //return -1;
+                continue;
+            }else{
+                jdc_sdl_present_frame(sdlCtx, pFrame);
+            }
+        }else if(packet.stream_index == mCtx->audioStream->index){
+            jdc_packet_queue_push(sdlCtx->audioQueue, &packet);
+        }
+        
+       // av_packet_unref(&packet);
     }
     
-    uint8_t *buffer = NULL;
-    int numBytes = av_image_get_buffer_size(AV_PIX_FMT_RGB24, context->width, context->height, 0);
-    buffer = (uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
     
-    av_image_fill_arrays(<#uint8_t **dst_data#>, <#int *dst_linesize#>, <#const uint8_t *src#>, <#enum AVPixelFormat pix_fmt#>, <#int width#>, <#int height#>, <#int align#>)
+    return 0;
     
 }

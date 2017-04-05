@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "jdc_media_player.h"
 
 @interface AppDelegate ()
 
@@ -16,6 +17,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"MOV"];
+    
+    jdc_media_init();
+    jdc_sdl_init();
+    
     // Override point for customization after application launch.
     return YES;
 }

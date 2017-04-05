@@ -1,0 +1,12 @@
+prefix=
+exec_prefix=
+libdir=${pcfiledir}/../../../libavdevice
+includedir=/Users/Jidong/Documents/projects/JDCMediaPlayer/ffmpeg/ffmpeg-3.2
+
+Name: libavdevice
+Description: FFmpeg device handling library
+Version: 57.1.100
+Requires: libavfilter >= 6.65.100, libswscale >= 4.2.100, libavformat >= 57.56.100, libavcodec >= 57.64.100, libswresample >= 2.3.100, libavutil >= 55.34.100
+Conflicts:
+Libs: -L${libdir} -Wl,-rpath,${libdir} -lavdevice -framework QuartzCore -framework CoreVideo -framework Foundation -framework AVFoundation -framework CoreMedia -framework CoreFoundation -framework VideoToolbox -framework CoreMedia -framework CoreVideo -framework CoreFoundation -framework AudioToolbox -framework CoreMedia -liconv -lm -lbz2 -lz -pthread
+Cflags: -I${includedir}

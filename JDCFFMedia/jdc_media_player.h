@@ -9,11 +9,41 @@
 #ifndef jdc_media_player_h
 #define jdc_media_player_h
 
-typedef struct JDCMediaPlayer {
+#include "avformat.h"
+#include "avcodec.h"
+#include "swscale.h"
+#include "avutil.h"
+#include "imgutils.h"
+#include "jdc_sdl.h"
+
+struct JDCMediaContext {
     
-}JDCMediaPlayer;
+    AVFormatContext *fmtCtx;
+    
+    AVCodec *codecVideo;
+    AVCodecContext *codecCtxVideo;
+    AVStream *videoStream;
+    
+    AVStream *audioStream;
+    AVCodec *codecAudio;
+    AVCodecContext *codecCtxAudio;
+    
+    JDCSDLContext *sldCtx;
+    
+    int quit;
+};
+
+typedef struct JDCMediaContext JDCMediaContext;
+
+typedef struct JDCError {
+}JDCError;
 
 
 int jdc_media_init();
+
+JDCMediaContext *jdc_media_open_input(const char *url,JDCError **error);
+
+int jdc_media_play(JDCMediaContext *mCtx , JDCSDLContext *sdCtx);
+
 
 #endif /* jdc_media_player_h */
