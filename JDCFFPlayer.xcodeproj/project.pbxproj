@@ -35,7 +35,6 @@
 		DFBA337E1E91F2FF005A9197 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA33781E91F23F005A9197 /* VideoToolbox.framework */; };
 		DFBA33801E91F315005A9197 /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA337F1E91F314005A9197 /* libbz2.tbd */; };
 		DFBA33821E91F327005A9197 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA33811E91F327005A9197 /* libiconv.tbd */; };
-		DFBA33841E91F639005A9197 /* test.MOV in Resources */ = {isa = PBXBuildFile; fileRef = DFBA33831E91F639005A9197 /* test.MOV */; };
 		DFBA33871E925E74005A9197 /* war3end.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = DFBA33861E925E74005A9197 /* war3end.mp4 */; };
 		DFBA338A1E933ABB005A9197 /* jdc_sdl_queue.c in Sources */ = {isa = PBXBuildFile; fileRef = DFBA33881E933ABB005A9197 /* jdc_sdl_queue.c */; };
 /* End PBXBuildFile section */
@@ -222,7 +221,6 @@
 		DFBA337C1E91F2A6005A9197 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DFBA337F1E91F314005A9197 /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
 		DFBA33811E91F327005A9197 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
-		DFBA33831E91F639005A9197 /* test.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = test.MOV; sourceTree = "<group>"; };
 		DFBA33861E925E74005A9197 /* war3end.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = war3end.mp4; sourceTree = "<group>"; };
 		DFBA33881E933ABB005A9197 /* jdc_sdl_queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jdc_sdl_queue.c; sourceTree = "<group>"; };
 		DFBA33891E933ABB005A9197 /* jdc_sdl_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdc_sdl_queue.h; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 			isa = PBXGroup;
 			children = (
 				DFBA33861E925E74005A9197 /* war3end.mp4 */,
-				DFBA33831E91F639005A9197 /* test.MOV */,
 				DFBA32F51E91F1E8005A9197 /* FFmpeg-iOS */,
 				DFBA32DE1E91D911005A9197 /* SDL.xcodeproj */,
 				8D3605461E8F95AD00CB4CAB /* JDCFFMedia */,
@@ -674,7 +671,6 @@
 			files = (
 				DFBA33871E925E74005A9197 /* war3end.mp4 in Resources */,
 				8D3605311E8F956500CB4CAB /* LaunchScreen.storyboard in Resources */,
-				DFBA33841E91F639005A9197 /* test.MOV in Resources */,
 				8D36052E1E8F956500CB4CAB /* Assets.xcassets in Resources */,
 				8D36052C1E8F956500CB4CAB /* Main.storyboard in Resources */,
 			);
