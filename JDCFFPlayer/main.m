@@ -14,7 +14,7 @@
 int main(int argc, char * argv[]) {
     @autoreleasepool {
         //return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-//        NSString *path = [[NSBundle mainBundle] pathForResource:@"war3end" ofType:@"mp4"];
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"war3end" ofType:@"mp4"];
         NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"MOV"];
         
         jdc_media_init();

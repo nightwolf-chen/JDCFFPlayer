@@ -20,12 +20,13 @@ int jdc_media_init()
 int jdc_media_video_thread(void *data)
 {
     JDCMediaContext *mCtx = data;
-    AVPacket *packet;
-    AVFrame *pFrame = av_frame_alloc();
     mCtx->videoFrameQueue = jdc_packet_queue_alloc();
     jdc_packet_queue_init(mCtx->videoFrameQueue);
     
     while(1){
+        
+        AVFrame *pFrame = av_frame_alloc();
+        AVPacket *packet;
         
         if(jdc_packet_queue_get_packet(mCtx->videoQueue, (void **)&packet, 1) < 0) {
             break;
@@ -33,20 +34,25 @@ int jdc_media_video_thread(void *data)
         
          int r = avcodec_send_packet(mCtx->codecCtxVideo, packet);
          if (r != 0) {
-             av_packet_unref(packet);
+            av_packet_unref(packet);
+            av_packet_free(&packet);
+//             av_packet_unref(packet);
              continue;
          }
         
          r = avcodec_receive_frame(mCtx->codecCtxVideo, pFrame);
          if (r != 0) {
-             av_packet_unref(packet);
+            av_packet_unref(packet);
+            av_packet_free(&packet);
+//             av_packet_unref(packet);
              continue;
          }
         
         jdc_packet_queue_push(mCtx->videoFrameQueue, pFrame);
+        av_packet_unref(packet);
+        av_packet_free(&packet);
     }
     
-    av_frame_free(&pFrame);
     
     return 0;
 }
@@ -151,16 +157,21 @@ int jdc_media_decode_thread(void *userData)
                                         mCtx->codecCtxVideo->width,
                                         mCtx->codecCtxVideo->height,
                                         1);
-    AVPacket packet;
-    av_new_packet(&packet, numBytes);
+    AVPacket *packet;
     
-    while(av_read_frame(mCtx->fmtCtx, &packet) >= 0){
-        if (packet.stream_index == mCtx->videoStream->index) {
-            jdc_packet_queue_push(mCtx->videoQueue, &packet);
-        }else if(packet.stream_index == mCtx->audioStream->index){
-            jdc_packet_queue_push(mCtx->audioQueue, &packet);
+    int ret = -1;
+    do{
+        packet = av_packet_alloc();
+        ret = av_read_frame(mCtx->fmtCtx, packet);
+        if (ret >= 0) {
+            if (packet->stream_index == mCtx->videoStream->index) {
+                jdc_packet_queue_push(mCtx->videoQueue, packet);
+            }else if(packet->stream_index == mCtx->audioStream->index){
+                jdc_packet_queue_push(mCtx->audioQueue, packet);
+            }
         }
-    }
+    }while(ret >= 0);
+    
     
     return 0;
 }
@@ -220,7 +231,27 @@ int schedule_refresh(JDCMediaContext *mCtx, int n)
 
 int video_display(JDCMediaContext *mCtx , void *data) {
     
-    AVFrame *pFrameYUV = av_frame_alloc();
+    AVFrame *pFrameYUV = mCtx->sdlCtx->frame;
+//    pFrameYUV = av_frame_alloc();
+//    if (pFrameYUV == NULL) {
+//        av_frame_free(&pFrameYUV);
+//        return -1;
+//    }
+//    
+//    uint8_t *buffer = NULL;
+//    int numBytes = av_image_get_buffer_size(AV_PIX_FMT_YUV420P,
+//                                            mCtx->codecCtxVideo->width,
+//                                            mCtx->codecCtxVideo->height,
+//                                            1);
+//    buffer = (uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
+//    
+//    av_image_fill_arrays(pFrameYUV->data,
+//                         pFrameYUV->linesize,
+//                         buffer,
+//                         AV_PIX_FMT_YUV420P,
+//                         mCtx->codecCtxVideo->width,
+//                         mCtx->codecCtxVideo->height,
+//                         1);
     AVFrame *pFrame = data;
     JDCSDLContext *sdlCtx = mCtx->sdlCtx;
     
@@ -249,6 +280,8 @@ int video_display(JDCMediaContext *mCtx , void *data) {
     SDL_RenderCopy( sdlCtx->renderer, sdlCtx->texture,NULL, &sdlRect );
     SDL_RenderPresent( sdlCtx->renderer );
     
+    av_frame_unref(pFrame);
+    av_frame_free(&pFrame);
     
     
     return 0;
