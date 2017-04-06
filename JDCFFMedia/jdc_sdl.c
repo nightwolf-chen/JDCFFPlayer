@@ -176,23 +176,25 @@ int jdc_sdl_audio_decode_frame(AVCodecContext *aCodecCtx,
                        int buf_size,
                        JDCMediaContext *mCtx)
 {
-    AVPacket *pkt = av_packet_alloc();
-    AVFrame *frame = av_frame_alloc();
+    AVPacket *pkt = NULL;
+    static AVFrame frame;
     
     int len1, data_size = 0;
     
     while(1){
         
-        if (pkt->data != NULL) {
+        if (pkt != NULL && pkt->data != NULL) {
             
             if  (avcodec_send_packet(aCodecCtx, pkt) < 0) {
+                av_packet_unref(pkt);
+                av_packet_free(&pkt);
                 return -1;
             }
             
             data_size = 0;
-            while(avcodec_receive_frame(aCodecCtx, frame) >= 0){
+            while(avcodec_receive_frame(aCodecCtx, &frame) >= 0){
                 
-                len1 = frame->linesize[0];
+                len1 = frame.linesize[0];
                 if(len1 < 0) {
                     /* if error, skip frame */
                     break;
@@ -201,33 +203,29 @@ int jdc_sdl_audio_decode_frame(AVCodecContext *aCodecCtx,
                 int fData_size = 0;
                 fData_size = av_samples_get_buffer_size(NULL,
                                                        aCodecCtx->channels,
-                                                       frame->nb_samples,
+                                                       frame.nb_samples,
                                                        aCodecCtx->sample_fmt,
                                                        1);
                 assert(fData_size <= buf_size);
-                memcpy(audio_buf+data_size, frame->data[0], fData_size);
-                /*
+                memcpy(audio_buf+data_size, frame.data[0], fData_size);
                 fData_size = AudioResampling(aCodecCtx,
                                              &frame,
                                              AV_SAMPLE_FMT_S16,
                                              2,
                                              44100,audio_buf+data_size);
-                 */
                 data_size += fData_size;
             }
             
             if (data_size > 0) {
+                av_packet_unref(pkt);
+                av_packet_free(&pkt);
                 return data_size;
             }
-            //av_packet_unref(&pkt);
             
-            /* We have data, return it and come back for more later */
+            av_packet_unref(pkt);
+            av_packet_free(&pkt);
+            
         }
-        
-        /*
-        if(pkt.data)
-            av_packet_unref(&pkt);
-         */
         
         if(mCtx->quit) {
             return -1;
