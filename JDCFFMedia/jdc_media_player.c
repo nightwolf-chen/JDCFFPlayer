@@ -143,6 +143,8 @@ int jdc_media_open_stream(JDCMediaContext *mCtx , int sIdx){
             SDL_PauseAudio(0);
             break;
         case AVMEDIA_TYPE_VIDEO:
+            mCtx->frame_timer = (double)av_gettime() / 1000000.0;
+            mCtx->frame_last_delay = 40e-3;
             mCtx->videoStreamIdx = sIdx;
             mCtx->videoStream = stream;
             mCtx->codecVideo = codec;
