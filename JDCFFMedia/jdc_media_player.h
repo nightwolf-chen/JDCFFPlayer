@@ -16,6 +16,7 @@
 #include "imgutils.h"
 #include "jdc_sdl.h"
 
+
 struct JDCMediaContext {
     
     AVFormatContext *fmtCtx;
@@ -44,6 +45,15 @@ struct JDCMediaContext {
     char filename[1024];
     
     int quit;
+    
+    double videoClock;
+    double frame_last_pts;
+    double frame_last_delay;
+    double frame_timer;
+    
+    double audio_clock;
+    int audio_buf_index;
+    int audio_buf_size;
 };
 
 typedef struct JDCMediaContext JDCMediaContext;

@@ -15,6 +15,7 @@
 		8D3605311E8F956500CB4CAB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D36052F1E8F956500CB4CAB /* LaunchScreen.storyboard */; };
 		8D36053C1E8F956500CB4CAB /* JDCFFPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D36053B1E8F956500CB4CAB /* JDCFFPlayerTests.m */; };
 		8D3605491E8F95ED00CB4CAB /* jdc_media_player.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D3605471E8F95ED00CB4CAB /* jdc_media_player.c */; };
+		DF68F13D1E9895A800828B9A /* jdc_video_frame.c in Sources */ = {isa = PBXBuildFile; fileRef = DF68F13B1E9895A800828B9A /* jdc_video_frame.c */; };
 		DFBA32D81E9137D7005A9197 /* jdc_sdl.c in Sources */ = {isa = PBXBuildFile; fileRef = DFBA32D61E9137D7005A9197 /* jdc_sdl.c */; };
 		DFBA32EA1E91DA0E005A9197 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA32E51E91D911005A9197 /* libSDL2.a */; };
 		DFBA32EC1E91DA7A005A9197 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA32EB1E91DA7A005A9197 /* CoreMotion.framework */; };
@@ -95,6 +96,8 @@
 		DF2AE0D91E90899000B7D574 /* libpostproc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpostproc.a; path = ../../../../../usr/local/Cellar/ffmpeg/3.2.4/lib/libpostproc.a; sourceTree = "<group>"; };
 		DF2AE0DA1E90899000B7D574 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ../../../../../usr/local/Cellar/ffmpeg/3.2.4/lib/libswresample.a; sourceTree = "<group>"; };
 		DF2AE0DB1E90899000B7D574 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ../../../../../usr/local/Cellar/ffmpeg/3.2.4/lib/libswscale.a; sourceTree = "<group>"; };
+		DF68F13B1E9895A800828B9A /* jdc_video_frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jdc_video_frame.c; sourceTree = "<group>"; };
+		DF68F13C1E9895A800828B9A /* jdc_video_frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdc_video_frame.h; sourceTree = "<group>"; };
 		DFBA32D61E9137D7005A9197 /* jdc_sdl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jdc_sdl.c; sourceTree = "<group>"; };
 		DFBA32D71E9137D7005A9197 /* jdc_sdl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdc_sdl.h; sourceTree = "<group>"; };
 		DFBA32DE1E91D911005A9197 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "SDL2-2.0.5/Xcode-iOS/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
@@ -330,6 +333,8 @@
 				DFBA32D71E9137D7005A9197 /* jdc_sdl.h */,
 				DFBA33881E933ABB005A9197 /* jdc_sdl_queue.c */,
 				DFBA33891E933ABB005A9197 /* jdc_sdl_queue.h */,
+				DF68F13B1E9895A800828B9A /* jdc_video_frame.c */,
+				DF68F13C1E9895A800828B9A /* jdc_video_frame.h */,
 			);
 			path = JDCFFMedia;
 			sourceTree = "<group>";
@@ -693,6 +698,7 @@
 				DFBA32D81E9137D7005A9197 /* jdc_sdl.c in Sources */,
 				DFBA338A1E933ABB005A9197 /* jdc_sdl_queue.c in Sources */,
 				8D3605291E8F956500CB4CAB /* ViewController.m in Sources */,
+				DF68F13D1E9895A800828B9A /* jdc_video_frame.c in Sources */,
 				8D3605261E8F956500CB4CAB /* AppDelegate.m in Sources */,
 				8D3605231E8F956500CB4CAB /* main.m in Sources */,
 				8D3605491E8F95ED00CB4CAB /* jdc_media_player.c in Sources */,

@@ -174,12 +174,13 @@ int AudioResampling(AVCodecContext * audio_dec_ctx,
 int jdc_sdl_audio_decode_frame(AVCodecContext *aCodecCtx,
                        uint8_t *audio_buf,
                        int buf_size,
-                       JDCMediaContext *mCtx)
+                       JDCMediaContext *mCtx,double *pts_ptr)
 {
     AVPacket *pkt = NULL;
     static AVFrame frame;
     
     int len1, data_size = 0;
+    double pts;
     
     while(1){
         
@@ -227,12 +228,23 @@ int jdc_sdl_audio_decode_frame(AVCodecContext *aCodecCtx,
             
         }
         
+        pts = mCtx->audio_clock;
+        *pts_ptr = pts;
+        double n = 2 * mCtx->codecCtxAudio->channels;
+        mCtx->audio_clock += (double)data_size /
+        (double)(n * mCtx->codecCtxAudio->sample_rate);
+        
         if(mCtx->quit) {
             return -1;
         }
         
         if(jdc_packet_queue_get_packet(mCtx->audioQueue, (void **)&pkt, 1)< 0) {
             return -1;
+        }
+        
+        /* if update, update the audio clock w/pts */
+        if(pkt->pts != AV_NOPTS_VALUE) {
+            mCtx->audio_clock = av_q2d(mCtx->audioStream->time_base)*pkt->pts;
         }
     }
     
@@ -245,39 +257,38 @@ void jdc_sdl_audio_callback(void *userdata, Uint8 * stream,int len)
     AVCodecContext *codecCtx = mCtx->codecCtxAudio;
     int len1,audio_size;
     static uint8_t audio_buf[192000 * 4 / 2];
-    static unsigned int audio_buf_size = 0;
-    static unsigned int audio_buf_index = 0;
+    double pts;
     
     while(len > 0) {
-        if(audio_buf_index >= audio_buf_size) {
+        if(mCtx->audio_buf_index >= mCtx->audio_buf_size) {
             /* We have already sent all our data; get more */
             audio_size = jdc_sdl_audio_decode_frame(codecCtx,
                                             audio_buf,
                                             sizeof(audio_buf),
-                                            mCtx);
+                                            mCtx,&pts);
             if(audio_size < 0) {
                 /* If error, output silence */
-                audio_buf_size = 1024;
-                memset(audio_buf, 0, audio_buf_size);
+                mCtx->audio_buf_size = 1024;
+                memset(audio_buf, 0,mCtx->audio_buf_size);
             } else {
-                audio_buf_size = audio_size;
+                mCtx-> audio_buf_size = audio_size;
             }
-            audio_buf_index = 0;
+            mCtx->audio_buf_index = 0;
         }
         
-        len1 = audio_buf_size - audio_buf_index;
+        len1 = mCtx->audio_buf_size - mCtx->audio_buf_index;
         
         if(len1 > len) len1 = len;
         
         //SDL_memset(stream, 0, len);
         
-        memcpy(stream, (uint8_t *)audio_buf + audio_buf_index, len1);
+        memcpy(stream, (uint8_t *)audio_buf + mCtx->audio_buf_index, len1);
         
         //SDL_MixAudio(stream, (uint8_t *)audio_buf + audio_buf_index , len1, 100);
         
         len -= len1;
         stream += len1;
-        audio_buf_index += len1;
+        mCtx->audio_buf_index += len1;
     }
     
 }

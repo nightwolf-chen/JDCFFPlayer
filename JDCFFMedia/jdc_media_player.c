@@ -7,14 +7,35 @@
 //
 
 #include "jdc_media_player.h"
+#include "jdc_video_frame.h"
+#include "time.h"
 
 #define FF_QUIT_EVENT 10086
 #define FF_REFRESH_EVENT 10087
+
+#define AV_SYNC_THRESHOLD 0.01
+#define AV_NOSYNC_THRESHOLD 10.0
 
 int jdc_media_init()
 {
     av_register_all();
     return 0;
+}
+
+double synchronize_video(JDCMediaContext *mCtx , AVFrame *frame , double pst)
+{
+    double frame_delay = 0;
+    if (pst != 0) {
+        mCtx->videoClock = pst;
+    }else{
+        pst = mCtx->videoClock;
+    }
+    
+    frame_delay = av_q2d(mCtx->videoStream->time_base);
+    frame_delay += frame->repeat_pict * (frame_delay * 0.5);
+    mCtx->videoClock += frame_delay;
+    
+    return pst;
 }
 
 int jdc_media_video_thread(void *data)
@@ -29,6 +50,7 @@ int jdc_media_video_thread(void *data)
         AVPacket *packet;
         
         if(jdc_packet_queue_get_packet(mCtx->videoQueue, (void **)&packet, 1) < 0) {
+            av_frame_free(&pFrame);
             break;
         }
         
@@ -36,7 +58,6 @@ int jdc_media_video_thread(void *data)
          if (r != 0) {
             av_packet_unref(packet);
             av_packet_free(&packet);
-//             av_packet_unref(packet);
              continue;
          }
         
@@ -44,11 +65,20 @@ int jdc_media_video_thread(void *data)
          if (r != 0) {
             av_packet_unref(packet);
             av_packet_free(&packet);
-//             av_packet_unref(packet);
              continue;
          }
         
-        jdc_packet_queue_push(mCtx->videoFrameQueue, pFrame);
+        double pst = 0;
+        if (packet->dts != AV_NOPTS_VALUE) {
+            pst = av_frame_get_best_effort_timestamp(pFrame);
+        }
+        pst *= av_q2d(mCtx->videoStream->time_base);
+        pst = synchronize_video(mCtx, pFrame, pst);
+        
+        JDCVideoFrame *vFrame = jdc_video_Frame_alloc();
+        vFrame->avFrame = pFrame;
+        vFrame->pts = pst;
+        jdc_packet_queue_push(mCtx->videoFrameQueue, vFrame);
         av_packet_unref(packet);
         av_packet_free(&packet);
     }
@@ -232,27 +262,9 @@ int schedule_refresh(JDCMediaContext *mCtx, int n)
 int video_display(JDCMediaContext *mCtx , void *data) {
     
     AVFrame *pFrameYUV = mCtx->sdlCtx->frame;
-//    pFrameYUV = av_frame_alloc();
-//    if (pFrameYUV == NULL) {
-//        av_frame_free(&pFrameYUV);
-//        return -1;
-//    }
-//    
-//    uint8_t *buffer = NULL;
-//    int numBytes = av_image_get_buffer_size(AV_PIX_FMT_YUV420P,
-//                                            mCtx->codecCtxVideo->width,
-//                                            mCtx->codecCtxVideo->height,
-//                                            1);
-//    buffer = (uint8_t *)av_malloc(numBytes*sizeof(uint8_t));
-//    
-//    av_image_fill_arrays(pFrameYUV->data,
-//                         pFrameYUV->linesize,
-//                         buffer,
-//                         AV_PIX_FMT_YUV420P,
-//                         mCtx->codecCtxVideo->width,
-//                         mCtx->codecCtxVideo->height,
-//                         1);
-    AVFrame *pFrame = data;
+
+    JDCVideoFrame *vFrame = data;
+    AVFrame *pFrame = vFrame->avFrame;
     JDCSDLContext *sdlCtx = mCtx->sdlCtx;
     
     struct SwsContext *swsCtx = mCtx->swsCtx;
@@ -280,11 +292,27 @@ int video_display(JDCMediaContext *mCtx , void *data) {
     SDL_RenderCopy( sdlCtx->renderer, sdlCtx->texture,NULL, &sdlRect );
     SDL_RenderPresent( sdlCtx->renderer );
     
-    av_frame_unref(pFrame);
-    av_frame_free(&pFrame);
-    
+    jdc_video_Frame_free(vFrame);
     
     return 0;
+}
+
+static double get_audio_clock(JDCMediaContext *mCtx)
+{
+    double pts;
+    int hw_buf_size, bytes_per_sec, n;
+    
+    pts = mCtx->audio_clock; /* maintained in the audio thread */
+    hw_buf_size = mCtx->audio_buf_size - mCtx->audio_buf_index;
+    bytes_per_sec = 0;
+    n = mCtx->audioStream->codecpar->channels * 2;
+    if(mCtx->audioStream) {
+        bytes_per_sec = mCtx->audioStream->codecpar->sample_rate * n;
+    }
+    if(bytes_per_sec) {
+        pts -= (double)hw_buf_size / bytes_per_sec;
+    }
+    return pts;
 }
 
 void video_refresh_timer(void *userdata) {
@@ -295,19 +323,42 @@ void video_refresh_timer(void *userdata) {
         if(jdc_packet_queue_size(mCtx->videoFrameQueue) == 0) {
             schedule_refresh(mCtx, 1);
         } else {
-            /* Now, normally here goes a ton of code
-             about timing, etc. we're just going to
-             guess at a delay for now. You can
-             increase and decrease this value and hard code
-             the timing - but I don't suggest that ;)
-             We'll learn how to do it for real later.
-             */
-            schedule_refresh(mCtx, 40);
+            JDCVideoFrame *vFrame = NULL;
+            jdc_packet_queue_get_packet(mCtx->videoFrameQueue, (void *)&vFrame, 1);
+            double actual_delay, delay, sync_threshold, ref_clock, diff;
+            delay = vFrame->pts - mCtx->frame_last_pts; /* the pts from last time */
+            if(delay <= 0 || delay >= 1.0) {
+                /* if incorrect delay, use previous one */
+                delay = mCtx->frame_last_delay;
+            }
+            /* save for next time */
+            mCtx->frame_last_delay = delay;
+            mCtx->frame_last_pts = vFrame->pts;
             
+            /* update delay to sync to audio */
+            ref_clock = get_audio_clock(mCtx);
+            diff = vFrame->pts - ref_clock;
+            
+            /* Skip or repeat the frame. Take delay into account
+             FFPlay still doesn't "know if this is the best guess." */
+            sync_threshold = (delay > AV_SYNC_THRESHOLD) ? delay : AV_SYNC_THRESHOLD;
+            if(fabs(diff) < AV_NOSYNC_THRESHOLD) {
+                if(diff <= -sync_threshold) {
+                    delay = 0;
+                } else if(diff >= sync_threshold) {
+                    delay = 2 * delay;
+                }
+            }
+            mCtx->frame_timer += delay;
+            /* computer the REAL delay */
+            actual_delay = mCtx->frame_timer - (av_gettime() / 1000000.0);
+            if(actual_delay < 0.010) {
+                /* Really it should skip the picture instead */
+                actual_delay = 0.010;
+            }
+            schedule_refresh(mCtx, (int)(actual_delay * 1000 + 0.5));
             /* show the picture! */
-            void *videoFrameData = NULL;
-            jdc_packet_queue_get_packet(mCtx->videoFrameQueue, &videoFrameData, 1);
-            video_display(mCtx,videoFrameData);
+            video_display(mCtx,vFrame);
         }
     } else {
         schedule_refresh(mCtx, 100);
