@@ -2,7 +2,7 @@
 //  jdc_media_player.h
 //  JDCFFPlayer
 //
-//  Created by maochengrui on 01/04/2017.
+//  Created by Jidong Chen on 01/04/2017.
 //  Copyright © 2017 jidong. All rights reserved.
 //
 
