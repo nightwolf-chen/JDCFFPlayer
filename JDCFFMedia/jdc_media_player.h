@@ -15,6 +15,7 @@
 #include "avutil.h"
 #include "imgutils.h"
 #include "jdc_sdl.h"
+#include "jdc_video_frame.h"
 
 
 struct JDCMediaContext {
@@ -35,6 +36,7 @@ struct JDCMediaContext {
     
     SDL_Thread *parse_tid;
     SDL_Thread *video_tid;
+    SDL_Thread *main_tid;
     
     struct SwsContext *swsCtx;
     JDCSDLPacketQueue *audioQueue;
@@ -54,6 +56,9 @@ struct JDCMediaContext {
     double audio_clock;
     int audio_buf_index;
     int audio_buf_size;
+    
+    void (*display_callback)(void *,struct JDCMediaContext *,AVFrame *);
+    void *display_target;
 };
 
 typedef struct JDCMediaContext JDCMediaContext;
@@ -68,5 +73,12 @@ JDCMediaContext *jdc_media_open_input(const char *url,JDCError **error);
 
 int jdc_media_play(JDCMediaContext *mCtx);
 
+void jdc_media_set_display_callback(void *target,
+                                    JDCMediaContext *mCtx,
+                                    void (*callback)(void *target,
+                                                     JDCMediaContext *mCtx ,
+                                                     AVFrame *frame));
+
+void jdc_media_start(JDCMediaContext *mCtx);
 
 #endif /* jdc_media_player_h */

@@ -261,13 +261,22 @@ int schedule_refresh(JDCMediaContext *mCtx, int n)
     return SDL_AddTimer(n, sdl_refresh_timer_cb, mCtx);
 }
 
+void jdc_media_set_display_callback(void *target,
+                                    JDCMediaContext *mCtx,
+                                    void (*callback)(void *target,
+                                                     JDCMediaContext *mCtx ,
+                                                     AVFrame *frame))
+{
+    mCtx->display_target = target;
+    mCtx->display_callback = callback;
+}
+
 int video_display(JDCMediaContext *mCtx , void *data) {
     
     AVFrame *pFrameYUV = mCtx->sdlCtx->frame;
 
     JDCVideoFrame *vFrame = data;
     AVFrame *pFrame = vFrame->avFrame;
-    JDCSDLContext *sdlCtx = mCtx->sdlCtx;
     
     struct SwsContext *swsCtx = mCtx->swsCtx;
     
@@ -285,14 +294,19 @@ int video_display(JDCMediaContext *mCtx , void *data) {
     sdlRect.w = pFrame->width;
     sdlRect.h = pFrame->height;
     
-    SDL_UpdateYUVTexture(sdlCtx->texture, &sdlRect,
-                         pFrameYUV->data[0], pFrameYUV->linesize[0],
-                         pFrameYUV->data[1], pFrameYUV->linesize[1],
-                         pFrameYUV->data[2], pFrameYUV->linesize[2]);
     
-    SDL_RenderClear(sdlCtx->renderer );
-    SDL_RenderCopy( sdlCtx->renderer, sdlCtx->texture,NULL, &sdlRect );
-    SDL_RenderPresent( sdlCtx->renderer );
+    pFrameYUV->width = pFrame->width;
+    pFrameYUV->height = pFrame->height;
+    mCtx->display_callback(mCtx->display_target,mCtx,pFrameYUV);
+    
+//    SDL_UpdateYUVTexture(sdlCtx->texture, &sdlRect,
+//                         pFrameYUV->data[0], pFrameYUV->linesize[0],
+//                         pFrameYUV->data[1], pFrameYUV->linesize[1],
+//                         pFrameYUV->data[2], pFrameYUV->linesize[2]);
+//    
+//    SDL_RenderClear(sdlCtx->renderer );
+//    SDL_RenderCopy( sdlCtx->renderer, sdlCtx->texture,NULL, &sdlRect );
+//    SDL_RenderPresent( sdlCtx->renderer );
     
     jdc_video_Frame_free(vFrame);
     
@@ -366,6 +380,16 @@ void video_refresh_timer(void *userdata) {
         schedule_refresh(mCtx, 100);
     }
 }
+
+
+
+void jdc_media_start(JDCMediaContext *mCtx){
+    if (mCtx->main_tid) {
+        return;
+    }
+    mCtx->main_tid = SDL_CreateThread(jdc_media_play, "player main thread",mCtx);
+}
+
 
 int jdc_media_play(JDCMediaContext *mCtx)
 {

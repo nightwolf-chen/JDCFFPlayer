@@ -15,7 +15,7 @@
 #define SDL_AUDIO_BUFFER_SIZE 1024
 
 int jdc_sdl_init(){
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
+    if (SDL_Init(SDL_INIT_AUDIO | SDL_INIT_TIMER)) {
         return -1;
     }
     return 0;
@@ -296,42 +296,42 @@ void jdc_sdl_audio_callback(void *userdata, Uint8 * stream,int len)
 JDCSDLContext *jdc_sdl_create_context(struct JDCMediaContext *mCtx)
 {
     JDCSDLContext *sdlCtx = (JDCSDLContext *)av_mallocz(sizeof(JDCSDLContext));
-    SDL_Window *window = NULL;
-    
-    window = SDL_CreateWindow("video",
-                              SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED,
-                              mCtx->codecCtxVideo->width,
-                              mCtx->codecCtxVideo->height,
-                              SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL |SDL_WINDOW_BORDERLESS);
-    if (window == NULL) {
-        av_free(sdlCtx);
-        return NULL;
-    }
-    
-    sdlCtx->window = window;
-    
-    SDL_Renderer *pRenderer = SDL_CreateRenderer(sdlCtx->window, -1, 0);
-    if (pRenderer == NULL) {
-        av_free(sdlCtx);
-        return NULL;
-    }
-    
-    sdlCtx->renderer = pRenderer;
-    
-    SDL_Texture *pTexture = SDL_CreateTexture(pRenderer,
-                                              SDL_PIXELFORMAT_IYUV,
-                                              SDL_TEXTUREACCESS_STREAMING,
-                                              mCtx->codecCtxVideo->width,
-                                              mCtx->codecCtxVideo->height);
-    if (pTexture == NULL) {
-        av_free(sdlCtx);
-        return NULL;
-    }
-    
-    SDL_SetTextureBlendMode(pTexture,SDL_BLENDMODE_BLEND);
-    
-    sdlCtx->texture = pTexture;
+//    SDL_Window *window = NULL;
+//    
+//    window = SDL_CreateWindow("video",
+//                              SDL_WINDOWPOS_UNDEFINED,
+//                              SDL_WINDOWPOS_UNDEFINED,
+//                              mCtx->codecCtxVideo->width,
+//                              mCtx->codecCtxVideo->height,
+//                              SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL |SDL_WINDOW_BORDERLESS);
+//    if (window == NULL) {
+//        av_free(sdlCtx);
+//        return NULL;
+//    }
+//    
+//    sdlCtx->window = window;
+//    
+//    SDL_Renderer *pRenderer = SDL_CreateRenderer(sdlCtx->window, -1, 0);
+//    if (pRenderer == NULL) {
+//        av_free(sdlCtx);
+//        return NULL;
+//    }
+//    
+//    sdlCtx->renderer = pRenderer;
+//    
+//    SDL_Texture *pTexture = SDL_CreateTexture(pRenderer,
+//                                              SDL_PIXELFORMAT_IYUV,
+//                                              SDL_TEXTUREACCESS_STREAMING,
+//                                              mCtx->codecCtxVideo->width,
+//                                              mCtx->codecCtxVideo->height);
+//    if (pTexture == NULL) {
+//        av_free(sdlCtx);
+//        return NULL;
+//    }
+//    
+//    SDL_SetTextureBlendMode(pTexture,SDL_BLENDMODE_BLEND);
+//    
+//    sdlCtx->texture = pTexture;
     
     enum AVPixelFormat pixFmt = AV_PIX_FMT_YUV420P;
     struct SwsContext *swsCtx = sws_getContext(mCtx->codecCtxVideo->width,

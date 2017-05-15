@@ -17,13 +17,16 @@
 		8D3605491E8F95ED00CB4CAB /* jdc_media_player.c in Sources */ = {isa = PBXBuildFile; fileRef = 8D3605471E8F95ED00CB4CAB /* jdc_media_player.c */; };
 		8D6406C31EBC55DC00B17661 /* JDCGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6406C21EBC55DC00B17661 /* JDCGLView.m */; };
 		8D6406C71EBC564000B17661 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D6406C61EBC564000B17661 /* GLKit.framework */; };
-		8D6406CB1EBC586800B17661 /* JDCVideoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6406CA1EBC586800B17661 /* JDCVideoFrame.m */; };
 		8D6406CF1EBC58E000B17661 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 8D6406CD1EBC58E000B17661 /* Shader.fsh */; };
 		8D6406D01EBC58E000B17661 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 8D6406CE1EBC58E000B17661 /* Shader.vsh */; };
 		8D6406D21EBC5D9500B17661 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D6406D11EBC5D9500B17661 /* OpenGLES.framework */; };
+		DF367D1B1EC9433300D9550D /* KxMovieGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367D1A1EC9433300D9550D /* KxMovieGLView.m */; };
+		DF367D201EC9438A00D9550D /* KxMovieDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = DF367D1F1EC9438A00D9550D /* KxMovieDecoder.m */; };
 		DF68F13D1E9895A800828B9A /* jdc_video_frame.c in Sources */ = {isa = PBXBuildFile; fileRef = DF68F13B1E9895A800828B9A /* jdc_video_frame.c */; };
+		DF71CE411EBD74CA006BFE01 /* JDCMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = DF71CE401EBD74CA006BFE01 /* JDCMediaPlayer.m */; };
+		DF71CE441EBD7B43006BFE01 /* JDCAVFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = DF71CE431EBD7B43006BFE01 /* JDCAVFrame.m */; };
+		DF71CE511EBD7FE7006BFE01 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF71CE4C1EBD7FC9006BFE01 /* libSDL2.a */; };
 		DFBA32D81E9137D7005A9197 /* jdc_sdl.c in Sources */ = {isa = PBXBuildFile; fileRef = DFBA32D61E9137D7005A9197 /* jdc_sdl.c */; };
-		DFBA32EA1E91DA0E005A9197 /* libSDL2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA32E51E91D911005A9197 /* libSDL2.a */; };
 		DFBA32EC1E91DA7A005A9197 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA32EB1E91DA7A005A9197 /* CoreMotion.framework */; };
 		DFBA32EE1E91DA7F005A9197 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA32ED1E91DA7F005A9197 /* AudioToolbox.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		DFBA32F01E91DA8A005A9197 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFBA32EF1E91DA8A005A9197 /* CoreGraphics.framework */; };
@@ -54,23 +57,23 @@
 			remoteGlobalIDString = 8D36051D1E8F956500CB4CAB;
 			remoteInfo = JDCFFPlayer;
 		};
-		DFBA32E41E91D911005A9197 /* PBXContainerItemProxy */ = {
+		DF71CE4B1EBD7FC9006BFE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DFBA32DE1E91D911005A9197 /* SDL.xcodeproj */;
+			containerPortal = DF71CE451EBD7FC8006BFE01 /* SDL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = FD6526630DE8FCCB002AD96B;
 			remoteInfo = libSDL;
 		};
-		DFBA32E61E91D911005A9197 /* PBXContainerItemProxy */ = {
+		DF71CE4D1EBD7FC9006BFE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DFBA32DE1E91D911005A9197 /* SDL.xcodeproj */;
+			containerPortal = DF71CE451EBD7FC8006BFE01 /* SDL.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = FAB598141BB5C1B100BE72C5;
 			remoteInfo = "libSDL-tv";
 		};
-		DFBA32E81E91DA05005A9197 /* PBXContainerItemProxy */ = {
+		DF71CE4F1EBD7FDF006BFE01 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = DFBA32DE1E91D911005A9197 /* SDL.xcodeproj */;
+			containerPortal = DF71CE451EBD7FC8006BFE01 /* SDL.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = FD6526620DE8FCCB002AD96B;
 			remoteInfo = libSDL;
@@ -97,8 +100,6 @@
 		8D6406C21EBC55DC00B17661 /* JDCGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDCGLView.m; sourceTree = "<group>"; };
 		8D6406C61EBC564000B17661 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		8D6406C81EBC580E00B17661 /* JDCVideoRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDCVideoRenderer.h; sourceTree = "<group>"; };
-		8D6406C91EBC586800B17661 /* JDCVideoFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDCVideoFrame.h; sourceTree = "<group>"; };
-		8D6406CA1EBC586800B17661 /* JDCVideoFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDCVideoFrame.m; sourceTree = "<group>"; };
 		8D6406CD1EBC58E000B17661 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
 		8D6406CE1EBC58E000B17661 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		8D6406D11EBC5D9500B17661 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -111,11 +112,19 @@
 		DF2AE0D91E90899000B7D574 /* libpostproc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpostproc.a; path = ../../../../../usr/local/Cellar/ffmpeg/3.2.4/lib/libpostproc.a; sourceTree = "<group>"; };
 		DF2AE0DA1E90899000B7D574 /* libswresample.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswresample.a; path = ../../../../../usr/local/Cellar/ffmpeg/3.2.4/lib/libswresample.a; sourceTree = "<group>"; };
 		DF2AE0DB1E90899000B7D574 /* libswscale.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libswscale.a; path = ../../../../../usr/local/Cellar/ffmpeg/3.2.4/lib/libswscale.a; sourceTree = "<group>"; };
+		DF367D191EC9433300D9550D /* KxMovieGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMovieGLView.h; sourceTree = "<group>"; };
+		DF367D1A1EC9433300D9550D /* KxMovieGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMovieGLView.m; sourceTree = "<group>"; };
+		DF367D1E1EC9438A00D9550D /* KxMovieDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMovieDecoder.h; sourceTree = "<group>"; };
+		DF367D1F1EC9438A00D9550D /* KxMovieDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMovieDecoder.m; sourceTree = "<group>"; };
 		DF68F13B1E9895A800828B9A /* jdc_video_frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jdc_video_frame.c; sourceTree = "<group>"; };
 		DF68F13C1E9895A800828B9A /* jdc_video_frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdc_video_frame.h; sourceTree = "<group>"; };
+		DF71CE3F1EBD74CA006BFE01 /* JDCMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDCMediaPlayer.h; sourceTree = "<group>"; };
+		DF71CE401EBD74CA006BFE01 /* JDCMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDCMediaPlayer.m; sourceTree = "<group>"; };
+		DF71CE421EBD7B43006BFE01 /* JDCAVFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDCAVFrame.h; sourceTree = "<group>"; };
+		DF71CE431EBD7B43006BFE01 /* JDCAVFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDCAVFrame.m; sourceTree = "<group>"; };
+		DF71CE451EBD7FC8006BFE01 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "SDL2-2.0.5/Xcode-iOS/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
 		DFBA32D61E9137D7005A9197 /* jdc_sdl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jdc_sdl.c; sourceTree = "<group>"; };
 		DFBA32D71E9137D7005A9197 /* jdc_sdl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdc_sdl.h; sourceTree = "<group>"; };
-		DFBA32DE1E91D911005A9197 /* SDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SDL.xcodeproj; path = "SDL2-2.0.5/Xcode-iOS/SDL/SDL.xcodeproj"; sourceTree = "<group>"; };
 		DFBA32EB1E91DA7A005A9197 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		DFBA32ED1E91DA7F005A9197 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		DFBA32EF1E91DA8A005A9197 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -242,7 +251,6 @@
 		DFBA33861E925E74005A9197 /* war3end.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = war3end.mp4; sourceTree = "<group>"; };
 		DFBA33881E933ABB005A9197 /* jdc_sdl_queue.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = jdc_sdl_queue.c; sourceTree = "<group>"; };
 		DFBA33891E933ABB005A9197 /* jdc_sdl_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jdc_sdl_queue.h; sourceTree = "<group>"; };
-		DFBA338B1E935510005A9197 /* tutorial03.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tutorial03.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +258,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF71CE511EBD7FE7006BFE01 /* libSDL2.a in Frameworks */,
 				8D6406D21EBC5D9500B17661 /* OpenGLES.framework in Frameworks */,
 				8D6406C71EBC564000B17661 /* GLKit.framework in Frameworks */,
 				DFBA33821E91F327005A9197 /* libiconv.tbd in Frameworks */,
@@ -270,7 +279,6 @@
 				DFBA32EC1E91DA7A005A9197 /* CoreMotion.framework in Frameworks */,
 				DFBA33751E91F1E8005A9197 /* libswscale.a in Frameworks */,
 				DFBA336F1E91F1E8005A9197 /* libavcodec.a in Frameworks */,
-				DFBA32EA1E91DA0E005A9197 /* libSDL2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,8 +296,8 @@
 			isa = PBXGroup;
 			children = (
 				DFBA33861E925E74005A9197 /* war3end.mp4 */,
+				DF71CE451EBD7FC8006BFE01 /* SDL.xcodeproj */,
 				DFBA32F51E91F1E8005A9197 /* FFmpeg-iOS */,
-				DFBA32DE1E91D911005A9197 /* SDL.xcodeproj */,
 				8D3605461E8F95AD00CB4CAB /* JDCFFMedia */,
 				8D3605201E8F956500CB4CAB /* JDCFFPlayer */,
 				8D36053A1E8F956500CB4CAB /* JDCFFPlayerTests */,
@@ -326,7 +334,6 @@
 		8D3605211E8F956500CB4CAB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				DFBA338B1E935510005A9197 /* tutorial03.m */,
 				8D3605221E8F956500CB4CAB /* main.m */,
 			);
 			name = "Supporting Files";
@@ -353,11 +360,17 @@
 				DFBA33891E933ABB005A9197 /* jdc_sdl_queue.h */,
 				DF68F13B1E9895A800828B9A /* jdc_video_frame.c */,
 				DF68F13C1E9895A800828B9A /* jdc_video_frame.h */,
+				DF367D1E1EC9438A00D9550D /* KxMovieDecoder.h */,
+				DF367D1F1EC9438A00D9550D /* KxMovieDecoder.m */,
+				DF367D191EC9433300D9550D /* KxMovieGLView.h */,
+				DF367D1A1EC9433300D9550D /* KxMovieGLView.m */,
 				8D6406C11EBC55DC00B17661 /* JDCGLView.h */,
 				8D6406C21EBC55DC00B17661 /* JDCGLView.m */,
 				8D6406C81EBC580E00B17661 /* JDCVideoRenderer.h */,
-				8D6406C91EBC586800B17661 /* JDCVideoFrame.h */,
-				8D6406CA1EBC586800B17661 /* JDCVideoFrame.m */,
+				DF71CE3F1EBD74CA006BFE01 /* JDCMediaPlayer.h */,
+				DF71CE401EBD74CA006BFE01 /* JDCMediaPlayer.m */,
+				DF71CE421EBD7B43006BFE01 /* JDCAVFrame.h */,
+				DF71CE431EBD7B43006BFE01 /* JDCAVFrame.m */,
 			);
 			path = JDCFFMedia;
 			sourceTree = "<group>";
@@ -400,11 +413,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		DFBA32DF1E91D911005A9197 /* Products */ = {
+		DF71CE461EBD7FC8006BFE01 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DFBA32E51E91D911005A9197 /* libSDL2.a */,
-				DFBA32E71E91D911005A9197 /* libSDL2.a */,
+				DF71CE4C1EBD7FC9006BFE01 /* libSDL2.a */,
+				DF71CE4E1EBD7FC9006BFE01 /* libSDL2.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -615,7 +628,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				DFBA32E91E91DA05005A9197 /* PBXTargetDependency */,
+				DF71CE501EBD7FDF006BFE01 /* PBXTargetDependency */,
 			);
 			name = JDCFFPlayer;
 			productName = JDCFFPlayer;
@@ -674,8 +687,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = DFBA32DF1E91D911005A9197 /* Products */;
-					ProjectRef = DFBA32DE1E91D911005A9197 /* SDL.xcodeproj */;
+					ProductGroup = DF71CE461EBD7FC8006BFE01 /* Products */;
+					ProjectRef = DF71CE451EBD7FC8006BFE01 /* SDL.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -687,18 +700,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		DFBA32E51E91D911005A9197 /* libSDL2.a */ = {
+		DF71CE4C1EBD7FC9006BFE01 /* libSDL2.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libSDL2.a;
-			remoteRef = DFBA32E41E91D911005A9197 /* PBXContainerItemProxy */;
+			remoteRef = DF71CE4B1EBD7FC9006BFE01 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		DFBA32E71E91D911005A9197 /* libSDL2.a */ = {
+		DF71CE4E1EBD7FC9006BFE01 /* libSDL2.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libSDL2.a;
-			remoteRef = DFBA32E61E91D911005A9197 /* PBXContainerItemProxy */;
+			remoteRef = DF71CE4D1EBD7FC9006BFE01 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -731,12 +744,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF367D1B1EC9433300D9550D /* KxMovieGLView.m in Sources */,
+				DF71CE411EBD74CA006BFE01 /* JDCMediaPlayer.m in Sources */,
 				DFBA32D81E9137D7005A9197 /* jdc_sdl.c in Sources */,
 				DFBA338A1E933ABB005A9197 /* jdc_sdl_queue.c in Sources */,
+				DF367D201EC9438A00D9550D /* KxMovieDecoder.m in Sources */,
 				8D3605291E8F956500CB4CAB /* ViewController.m in Sources */,
+				DF71CE441EBD7B43006BFE01 /* JDCAVFrame.m in Sources */,
 				DF68F13D1E9895A800828B9A /* jdc_video_frame.c in Sources */,
 				8D3605261E8F956500CB4CAB /* AppDelegate.m in Sources */,
-				8D6406CB1EBC586800B17661 /* JDCVideoFrame.m in Sources */,
 				8D6406C31EBC55DC00B17661 /* JDCGLView.m in Sources */,
 				8D3605231E8F956500CB4CAB /* main.m in Sources */,
 				8D3605491E8F95ED00CB4CAB /* jdc_media_player.c in Sources */,
@@ -759,10 +775,10 @@
 			target = 8D36051D1E8F956500CB4CAB /* JDCFFPlayer */;
 			targetProxy = 8D3605381E8F956500CB4CAB /* PBXContainerItemProxy */;
 		};
-		DFBA32E91E91DA05005A9197 /* PBXTargetDependency */ = {
+		DF71CE501EBD7FDF006BFE01 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = libSDL;
-			targetProxy = DFBA32E81E91DA05005A9197 /* PBXContainerItemProxy */;
+			targetProxy = DF71CE4F1EBD7FDF006BFE01 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -888,6 +904,7 @@
 					"\"$(SRCROOT)/SDL2-2.0.5/include\"",
 				);
 				INFOPLIST_FILE = JDCFFPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",
@@ -912,6 +929,7 @@
 					"\"$(SRCROOT)/SDL2-2.0.5/include\"",
 				);
 				INFOPLIST_FILE = JDCFFPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)",

@@ -18,13 +18,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"MOV"];
+    [self.window makeKeyAndVisible];
+    UIStoryboard *storyBoard  = [UIStoryboard storyboardWithName:@"Main"
+                                                         bundle:[NSBundle mainBundle]];
     
-    jdc_media_init();
-    jdc_sdl_init();
+    self.window.rootViewController = [storyBoard instantiateInitialViewController];
     
-    // Override point for customization after application launch.
+    
     return YES;
 }
 

@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class JDCVideoFrame;
+@class JDCAVFrame;
 
 @protocol JDCVideoRenderer <NSObject>
 
 @required
-- (void)render:(JDCVideoFrame *)frame;
+- (void)render:(JDCAVFrame *)frame;
 
 
 @end

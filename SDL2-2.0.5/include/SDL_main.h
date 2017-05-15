@@ -57,7 +57,7 @@
 
    See src/video/uikit/SDL_uikitappdelegate.m for more details.
  */
-#define SDL_MAIN_NEEDED
+//#define SDL_MAIN_NEEDED
 
 #elif defined(__ANDROID__)
 /* On Android SDL provides a Java class in SDLActivity.java that is the

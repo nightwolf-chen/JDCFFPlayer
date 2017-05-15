@@ -8,6 +8,7 @@
 
 #import "JDCGLView.h"
 #import <OpenGLES/ES2/gl.h>
+#import "JDCAVFrame.h"
 
 //Select one of the Texture mode (Set '1'):
 #define TEXTURE_DEFAULT   1
@@ -23,7 +24,14 @@
     GLuint _program;
     GLuint _id_y, _id_u, _id_v; // Texture id
     GLuint _textureUniformY, _textureUniformU,_textureUniformV;
-
+    uint8_t *plane[3];
+    
+    GLuint          _framebuffer;
+    GLuint          _renderbuffer;
+    GLint           _backingWidth;
+    GLint           _backingHeight;
+    GLint           _uniformMatrix;
+    GLfloat         _vertices[8];
 }
 
 @end
@@ -33,19 +41,153 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-        self.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
-        self.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-        self.drawableStencilFormat = GLKViewDrawableStencilFormat8;
-        self.drawableMultisample = GLKViewDrawableMultisample4X;
+        [self commomInit];
     }
     
     return self;
 }
 
-
-- (void)render:(JDCVideoFrame *)frame
+- (instancetype)init
 {
+    if (self = [super init]) {
+        [self commomInit];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    if (self = [super initWithCoder:aDecoder]) {
+        [self commomInit];
+    }
+    
+    return self;
+}
+
+- (void)commomInit
+{
+    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    self.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
+    self.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    self.drawableStencilFormat = GLKViewDrawableStencilFormat8;
+    self.drawableMultisample = GLKViewDrawableMultisample4X;
+    
+    [self initShaders];
+    
+    [self setNeedsDisplay];
+}
+
+
+- (void)render:(JDCAVFrame *)frame
+{
+    GLsizei pixel_h = frame.avFrame->linesize[0];
+    GLsizei pixel_w = frame.avFrame->linesize[0];
+    
+    for(int i = 0 ; i < 3 ;i++){
+        plane[i] = frame.avFrame->data[i];   
+    }
+    
+    //Clear
+    glClearColor(0.0,255,0.0,0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    //Y
+    //
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _id_y);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w,
+                 pixel_h,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[0]);
+    glUniform1i(_textureUniformY, 0);
+    //U
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, _id_u);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w/2,
+                 pixel_h/2,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[1]);
+    
+    glUniform1i(_textureUniformU, 1);
+    //V
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, _id_v);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w/2,
+                 pixel_h/2,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[2]);
+    
+    glUniform1i(_textureUniformV, 2);
+    
+    // Draw
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    
+    
+    //Clear
+    glClearColor(0.0,255,0.0,0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    //Y
+    //
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _id_y);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w,
+                 pixel_h,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[0]);
+    glUniform1i(_textureUniformY, 0);
+    //U
+    
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, _id_u);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w/2,
+                 pixel_h/2,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[1]);
+    
+    glUniform1i(_textureUniformU, 1);
+    //V
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, _id_v);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w/2,
+                 pixel_h/2,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[2]);
+    
+    glUniform1i(_textureUniformV, 2);
+    
+    // Draw
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
 }
 
@@ -155,31 +297,60 @@
     
 }
 
+
 - (void)drawRect:(CGRect)rect
 {
     [super drawRect:rect];
+    
+    GLsizei pixel_h = 100;
+    GLsizei pixel_w = 100;
+    
     //Clear
     glClearColor(0.0,255,0.0,0.0);
     glClear(GL_COLOR_BUFFER_BIT);
     //Y
     //
     glActiveTexture(GL_TEXTURE0);
-    
     glBindTexture(GL_TEXTURE_2D, _id_y);
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pixel_w, pixel_h, 0, GL_RED, GL_UNSIGNED_BYTE, plane[0]);
-    
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w,
+                 pixel_h,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[0]);
     glUniform1i(_textureUniformY, 0);
     //U
+    
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, _id_u);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pixel_w/2, pixel_h/2, 0, GL_RED, GL_UNSIGNED_BYTE, plane[1]);
-    glUniform1i(textureUniformU, 1);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w/2,
+                 pixel_h/2,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[1]);
+    
+    glUniform1i(_textureUniformU, 1);
     //V
     glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, id_v);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pixel_w/2, pixel_h/2, 0, GL_RED, GL_UNSIGNED_BYTE, plane[2]);
-    glUniform1i(textureUniformV, 2);
+    glBindTexture(GL_TEXTURE_2D, _id_v);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_LUMINANCE,
+                 pixel_w/2,
+                 pixel_h/2,
+                 0,
+                 GL_LUMINANCE,
+                 GL_UNSIGNED_BYTE,
+                 plane[2]);
+    
+    glUniform1i(_textureUniformV, 2);
     
     // Draw
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
